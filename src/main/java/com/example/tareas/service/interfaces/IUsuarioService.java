@@ -13,5 +13,7 @@ public interface IUsuarioService {
     public List<Usuario> mostrarUsuario();
     public Usuario agregarUsuario(Usuario usuario);
     public Usuario buscarUsuario(Long id);
+
+    public Usuario buscarUsuarioUser(String user);
     public void borrarUsuario(Long id);
 }
