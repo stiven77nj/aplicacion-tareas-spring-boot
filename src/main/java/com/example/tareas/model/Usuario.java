@@ -31,8 +31,10 @@ public class Usuario implements Serializable {
   @Column( name = "NOMBRE_USUARIO")
   private String nombreUsuario;
 
+  @Column( name = "CONTRASEÑA")
+  private String password;
+
   @Column( name = "FECHA_CREACION")
   @Temporal( TemporalType.TIMESTAMP )
   private Date fechaCreacion;
-
 }
