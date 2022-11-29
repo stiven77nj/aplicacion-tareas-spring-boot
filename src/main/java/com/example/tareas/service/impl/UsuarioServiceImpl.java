@@ -10,8 +10,10 @@ import java.util.List;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
+    
     @Autowired
     private IUsuarioRepository usuarioRepository;
+    
     @Override
     public List<Usuario> mostrarUsuario() {
         return (List<Usuario>) usuarioRepository.findAll();
@@ -35,6 +37,5 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public void borrarUsuario(Long id) {
         usuarioRepository.deleteById(id);
-
     }
 }

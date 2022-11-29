@@ -11,9 +11,12 @@ import java.util.List;
 public interface IUsuarioService {
 
     public List<Usuario> mostrarUsuario();
+    
     public Usuario agregarUsuario(Usuario usuario);
+    
     public Usuario buscarUsuario(Long id);
 
     public Usuario buscarNombreUsuario(String user);
+
     public void borrarUsuario(Long id);
 }
