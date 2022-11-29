@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -30,17 +31,19 @@ public class UsuarioController {
 
         Map<String, Object> response = new HashMap<>();
 
+
         try {
 
             List<Usuario> usuarios = usuarioService.mostrarUsuario();
 
             if ( usuarios.isEmpty() ) {
                 response.put("Mensaje", "No hay usuarios registrados en el sistema");
-                response.put("Data", usuarios);
+                response.put("Valor", usuarios);
                 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
             } else {
                 response.put("Mensaje", "Usuarios listados de manera de exitosa");
-                response.put("Data", usuarios);
+                response.put("Valor", usuarios);
+
                 return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
             }
             
@@ -62,14 +65,56 @@ public class UsuarioController {
 
 
     @GetMapping("/id/{id}")
-    public Usuario buscarUsuario(@PathVariable Long id){
-        return usuarioService.buscarUsuario(id);
+
+    public ResponseEntity<?> buscarUsuario(@PathVariable Long id){
+        Map<String, Object> response = new HashMap<>();
+
+        try{
+            Usuario usuario = usuarioService.buscarUsuario(id);
+            if (usuario == null){
+                response.put("Valor: ",usuario);
+                response.put("Mensaje: ","No se encontró el usuario con ID "+id);
+
+                return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+
+            }else{
+                response.put("Mensaje: ","Se encontró el usuario con ID: "+id);
+                response.put("Valor: ",usuario);
+                return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
+
+            }
+        } catch (DataAccessException e){
+            response.put("_Mensaje: ","Ocurrió un error interno del servidor");
+            response.put("Error:",e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
     }
 
 
     @GetMapping("/{user}")
-    public Usuario buscarNombreUsuario(@PathVariable String user){
-        return usuarioService.buscarNombreUsuario(user);
+    public ResponseEntity<?> buscarNombreUsuario(@PathVariable String user){
+        Map<String, Object> response = new HashMap<>();
+        try{
+            Usuario usuario=usuarioService.buscarNombreUsuario(user);
+            if (usuario == null){
+                response.put("Mensaje: ","No se encontró el usuario con Nombre de Usuario: "+user);
+                response.put("Valor",usuario);
+                return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+
+            }else{
+                response.put("Mensaje: ","Se encontró el usuario con Nombre de Usuario: "+user);
+                response.put("Valor: ",usuario);
+                return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
+            }
+
+        }catch (DataAccessException e){
+            response.put("_Mensaje: ","Ocurrió un error interno en el servidor");
+            response.put("Error: ",e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 
@@ -116,12 +161,36 @@ public class UsuarioController {
 
 
     @PutMapping("/{id}")
-    public Usuario editarUsuario(@PathVariable Long id, @RequestBody Usuario usuario){
-        Usuario usuarioNuevo = usuarioService.buscarUsuario(id);
-        usuarioNuevo.setNombre(usuario.getNombre());
-        usuarioNuevo.setApellido(usuario.getApellido());
-        usuarioNuevo.setCedula(usuario.getCedula());
-        usuarioNuevo.setNombreUsuario(usuario.getNombreUsuario());
-        return usuarioService.agregarUsuario(usuarioNuevo);
+    public ResponseEntity<?> editarUsuario(@PathVariable Long id, @RequestBody Usuario usuario){
+        Map<String, Object> response = new HashMap<>();
+
+
+        try{
+            Usuario usuarioNuevo = usuarioService.buscarUsuario(id);
+            if (usuarioNuevo == null){
+                response.put("Valor: ",usuarioNuevo);
+                response.put("Mensaje: ","No se encontró el usuario con ID "+id);
+
+                return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+
+            }else{
+                response.put("Mensaje: ","Se encontró el usuario con ID: "+id);
+                usuarioNuevo.setNombre(usuario.getNombre());
+                usuarioNuevo.setApellido(usuario.getApellido());
+                usuarioNuevo.setCedula(usuario.getCedula());
+                usuarioNuevo.setNombreUsuario(usuario.getNombreUsuario());
+                usuarioService.agregarUsuario(usuarioNuevo);
+                response.put("Valor: ",usuarioNuevo);
+                return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
+
+            }
+        } catch (DataAccessException e){
+            response.put("_Mensaje: ","Ocurrió un error interno del servidor");
+            response.put("Error:",e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
+
     }
 }
