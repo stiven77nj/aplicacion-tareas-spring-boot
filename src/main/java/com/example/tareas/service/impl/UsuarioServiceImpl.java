@@ -28,7 +28,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario buscarUsuarioUser(String user) {
+    public Usuario buscarNombreUsuario(String user) {
         return usuarioRepository.findTopByNombreUsuario(user).orElse(null);
     }
 

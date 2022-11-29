@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario,Long> {
     Optional<Usuario> findTopByNombreUsuario(String user);
+
 }
