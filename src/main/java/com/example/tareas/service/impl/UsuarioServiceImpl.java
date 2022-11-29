@@ -28,6 +28,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    public Usuario buscarUsuarioUser(String user) {
+        return usuarioRepository.findTopByNombreUsuario(user).orElse(null);
+    }
+
+    @Override
     public void borrarUsuario(Long id) {
         usuarioRepository.deleteById(id);
 

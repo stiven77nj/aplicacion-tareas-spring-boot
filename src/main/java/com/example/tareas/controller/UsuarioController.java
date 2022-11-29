@@ -35,6 +35,11 @@ public class UsuarioController {
         return usuarioService.buscarUsuario(id);
     }
 
+    @GetMapping("/{user}")
+    public Usuario buscarUsuarioUser(@PathVariable String user){
+        return usuarioService.buscarUsuarioUser(user);
+    }
+
     @DeleteMapping("/{id}")
     public void borrarUsuario(@PathVariable Long id){
         usuarioService.borrarUsuario(id);
