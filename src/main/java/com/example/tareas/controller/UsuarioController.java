@@ -30,14 +30,14 @@ public class UsuarioController {
         return usuarioService.agregarUsuario(usuario);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public Usuario buscarUsuario(@PathVariable Long id){
         return usuarioService.buscarUsuario(id);
     }
 
     @GetMapping("/{user}")
-    public Usuario buscarUsuarioUser(@PathVariable String user){
-        return usuarioService.buscarUsuarioUser(user);
+    public Usuario buscarNombreUsuario(@PathVariable String user){
+        return usuarioService.buscarNombreUsuario(user);
     }
 
     @DeleteMapping("/{id}")

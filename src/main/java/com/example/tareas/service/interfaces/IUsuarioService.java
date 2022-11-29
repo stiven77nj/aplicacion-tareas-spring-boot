@@ -14,6 +14,6 @@ public interface IUsuarioService {
     public Usuario agregarUsuario(Usuario usuario);
     public Usuario buscarUsuario(Long id);
 
-    public Usuario buscarUsuarioUser(String user);
+    public Usuario buscarNombreUsuario(String user);
     public void borrarUsuario(Long id);
 }
