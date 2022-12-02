@@ -24,16 +24,16 @@ public class Usuario implements Serializable {
   @Column( name = "APELLIDO")
   private String apellido;
 
-  @Column( name = "CEDULA")
+  @Column( name = "CEDULA",nullable = false)
   private Long cedula;
 
   @Column( name = "TELEFONO")
   private Long telefono;
 
-  @Column( name = "NOMBRE_USUARIO")
+  @Column( name = "NOMBRE_USUARIO", unique = true,nullable = false)
   private String nombreUsuario;
 
-  @Column( name = "CONTRASEÑA")
+  @Column( name = "CONTRASEÑA",nullable = false)
   private String password;
 
   @Column( name = "FECHA_CREACION")

@@ -59,8 +59,22 @@ public class UsuarioController {
 
 
     @PostMapping()
-    public Usuario agregarUsuario(@RequestBody Usuario usuario){
-        return usuarioService.agregarUsuario(usuario);
+    public ResponseEntity<?> agregarUsuario(@RequestBody Usuario usuario){
+        Map<String, Object> response = new HashMap<>();
+        Usuario usuarioNuevo = null;
+        try{
+            usuarioNuevo=usuarioService.agregarUsuario(usuario);
+
+        } catch (DataAccessException e){
+            response.put("Mensaje", "Ocurrio un error al ingresar el usuario");
+            response.put("Error", e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+        response.put("Mensaje: ","Se ingresó el usuario correctamente");
+        response.put("Valor: ",usuarioNuevo);
+        return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
+
     }
 
 
